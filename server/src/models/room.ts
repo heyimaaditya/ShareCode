@@ -1,48 +1,42 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Document } from "mongoose";
+
+export interface Member {
+  userId: string;
+  name: string;
+}
 
 export interface RoomSchema extends Document {
-  roomName: StringConstructor;
-  roomId: StringConstructor;
-  password: StringConstructor;
-  members: {
-    type: ArrayConstructor;
-    userId: {
-      type: StringConstructor;
-    };
-    name: {
-      type: StringConstructor;
-    };
-  };
-  createdAt: StringConstructor;
-  updatedAt: StringConstructor;
+  roomName: string;
+  roomId: string;
+  password: string;
+  members: Member[];
+  code?: string; // Optional field
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const roomSchema: Schema = new Schema(
   {
     roomName: {
       type: String,
-      require: true,
+      required: true, // Correct spelling: 'required' instead of 'require'
     },
     roomId: {
       type: String,
-      require: true,
+      required: true,
     },
     password: {
       type: String,
-      require: true,
+      required: true,
     },
     code: {
       type: String,
       default: "",
     },
     members: {
-      type: Array,
-      userId: {
-        type: String,
-      },
-      name: {
-        type: String,
-      },
+      type: [Object], // Define as array of objects
+      default: [], // Initialize as empty array
+      required: false, // Optional
     },
   },
   { timestamps: true }
